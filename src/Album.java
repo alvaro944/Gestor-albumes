@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Album {
     private String nombre;
@@ -74,5 +75,71 @@ public class Album {
             System.out.println("[!] La canción no exite en el álbum");
             return false;
         }
+    }
+    public boolean addToPlayListInOrder(LinkedList<Cancion> playList, String titulo, ArrayList<Album> albumes){
+        Cancion nuevaCancion = null;
+        for(Album album : albumes){
+            Cancion cancion = album.findSong(titulo);
+            if(cancion != null){
+                nuevaCancion = cancion;
+                break;
+            }
+        }
+
+        if(nuevaCancion == null){
+            System.out.println("\n[!] La canción no existe en los álbumes.");
+            return false;
+        }
+
+        ListIterator<Cancion> iterator = playList.listIterator();
+        while (iterator.hasNext()){
+            int comparacion = iterator.next().getTitulo().compareTo(nuevaCancion.getTitulo());
+            if (comparacion == 0){
+                System.out.println("\n[!] La canción ya está en la playlist");
+                return false;
+            } else if (comparacion > 0) {
+                iterator.previous();
+                break;
+            }
+
+        }
+        iterator.add(nuevaCancion);
+        System.out.println("\n[*] Canción añadida en orden: " + nuevaCancion.getTitulo());
+        return true;
+    }
+
+    public boolean addToPlayListInOrder(int numeroPista, LinkedList<Cancion> playList) {
+        if (numeroPista < 1 || numeroPista > canciones.size()) {
+            System.out.println("[!] Número de pista no válido.");
+            return false;
+        }
+        Cancion cancion = canciones.get(numeroPista - 1);
+        return addInOrder(cancion, playList);
+    }
+
+    public boolean addToPlayListInOrder(String titulo, LinkedList<Cancion> playList) {
+        Cancion cancionExistente = findSong(titulo);
+        if (cancionExistente == null) {
+            System.out.println("[!] La canción no existe en el álbum.");
+            return false;
+        }
+        return addInOrder(cancionExistente, playList);
+    }
+
+    private boolean addInOrder(Cancion cancion, LinkedList<Cancion> playList) {
+        ListIterator<Cancion> iterator = playList.listIterator();
+        while (iterator.hasNext()) {
+            Cancion actual = iterator.next();
+            if (actual.getTitulo().equalsIgnoreCase(cancion.getTitulo())) {
+                System.out.println("\n[!] La canción ya está en la playlist.");
+                return false;
+            } else if (actual.getTitulo().compareToIgnoreCase(cancion.getTitulo()) > 0) {
+                iterator.previous();
+                break;
+            }
+        }
+        iterator.add(cancion);
+        System.out.println("\n[*] Canción añadida en orden: " + cancion.getTitulo());
+        return true;
     }
 }

@@ -130,10 +130,10 @@ public class Main {
         LinkedList<Cancion> playList = new LinkedList<>();
 
         System.out.println("\n[+] Añadimos algunas canciones a la Playlist");
-        albumes.get(0).addToPlayList(2,playList);
-        albumes.get(1).addToPlayList(8,playList);
-        albumes.get(0).addToPlayList("Aleteos Nocturnos",playList);
-        albumes.get(1).addToPlayList("Ritmo del Sur",playList);
+        albumes.get(0).addToPlayListInOrder(2,playList);
+        albumes.get(1).addToPlayListInOrder(8,playList);
+        albumes.get(0).addToPlayListInOrder("Aleteos Nocturnos",playList);
+        albumes.get(1).addToPlayListInOrder("Ritmo del Sur",playList);
 
         play(playList);
     }
