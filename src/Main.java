@@ -8,6 +8,7 @@ public class Main {
         System.out.println("3 – Repetir la canción actua");
         System.out.println("4 – Imprimir la lista de canciones en la playlist");
         System.out.println("5 – Volver a imprimir el menú");
+        System.out.println("6 – Eliminar canción actual");
 
     }
 
@@ -37,33 +38,37 @@ public class Main {
                 case 0:
                     System.out.println("[*] Saliendo...");
                     break;
-                case 1:
-                    if (iterator.hasNext()){
-                        cancionActual = iterator.next();
-                        System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
-                    }else {
-                        System.out.println("\n[*] Estás en la última canción de la PlayList");
-                        cancionActual = iterator.previous();
+                case 1: // Reproducir siguiente canción
+                    try {
+                        if (iterator.hasNext()){
+                            cancionActual = iterator.next();
+                            System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
+                        }else {
+                            System.out.println("\n[*] Estás en la última canción de la PlayList");
+                            iterator.previous();
+                        }
+                    } catch (NoSuchElementException e){
+                        System.out.println("\n[*] La playlist está vacía no se puede avanzar canción");
                     }
                     break;
-                case 2:
+                case 2: // Reproducir canción previa
                     if(cancionActual == null){
-                        System.out.println("\n[*] Estás en la primera canción de la PlayList");
+                        System.out.println("\n[*] No hay ninguna canción seleccionada para reproducir");
                     } else{
                         if (iterator.hasPrevious()){
                             cancionActual = iterator.previous();
                             System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
                         }else {
                             System.out.println("\n[*] Estás en la primera canción de la PlayList");
-                            cancionActual = iterator.next();
+                            iterator.next();
                         }
                     }
                     break;
-                case 3:
+                case 3: // Repetir canción actual
                     if(cancionActual != null){
                         System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
                     }else {
-                        System.out.println("\n[*] No hay ninguna canción seleccionada");
+                        System.out.println("\n[*] No hay ninguna canción seleccionada para reproducir");
                     }
                     break;
                 case 4:
@@ -71,6 +76,23 @@ public class Main {
                     break;
                 case 5:
                     menu();
+                    break;
+                case 6:
+                    if (cancionActual != null) {
+                        iterator.remove();  // Elimina la canción actual utilizando el iterador
+                        if (iterator.hasNext()) {
+                            cancionActual = iterator.next();  // Si hay una siguiente, muéstrala
+                            System.out.println("\n[*] Ahora está sonando " + cancionActual.getTitulo());
+                        } else if (iterator.hasPrevious()) {
+                            cancionActual = iterator.previous();  // Si no hay siguiente, muestra la anterior
+                            System.out.println("\n[*] Ahora está sonando " + cancionActual.getTitulo());
+                        } else {
+                            cancionActual = null;  // Si no hay anterior, la playlist está vacía
+                            System.out.println("\n[*] La playlist está vacía.");
+                        }
+                    } else {
+                        System.out.println("\n[*] No hay ninguna canción seleccionada para eliminar.");
+                    }
                     break;
                 default:
                     System.out.println("[!] Opción no válida");

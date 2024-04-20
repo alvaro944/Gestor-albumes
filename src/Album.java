@@ -33,7 +33,7 @@ public class Album {
         }
     }
 
-    public Cancion findSong(String titulo){
+    private Cancion findSong(String titulo){
         for(Cancion cancion : canciones){
             if(titulo.equals(cancion.getTitulo())){
                 return cancion;
