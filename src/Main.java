@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void menu() {
@@ -22,6 +19,67 @@ public class Main {
             }
         }
     }
+
+    public static void play(LinkedList<Cancion> playList){
+        Scanner sc = new Scanner(System.in);
+        int opcion = -1;
+        menu();
+
+        Cancion cancionActual = null;
+        ListIterator<Cancion> iterator = playList.listIterator();
+
+        while(opcion != 0) {
+
+            System.out.print("\n[+] Introduce una opción: ");
+            opcion = sc.nextInt();
+
+            switch (opcion) {
+                case 0:
+                    System.out.println("[*] Saliendo...");
+                    break;
+                case 1:
+                    if (iterator.hasNext()){
+                        cancionActual = iterator.next();
+                        System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
+                    }else {
+                        System.out.println("\n[*] Estás en la última canción de la PlayList");
+                        cancionActual = iterator.previous();
+                    }
+                    break;
+                case 2:
+                    if(cancionActual == null){
+                        System.out.println("\n[*] Estás en la primera canción de la PlayList");
+                    } else{
+                        if (iterator.hasPrevious()){
+                            cancionActual = iterator.previous();
+                            System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
+                        }else {
+                            System.out.println("\n[*] Estás en la primera canción de la PlayList");
+                            cancionActual = iterator.next();
+                        }
+                    }
+                    break;
+                case 3:
+                    if(cancionActual != null){
+                        System.out.println("\n[*] Esta sonando " + cancionActual.getTitulo());
+                    }else {
+                        System.out.println("\n[*] No hay ninguna canción seleccionada");
+                    }
+                    break;
+                case 4:
+                    imprimirPlayList(playList);
+                    break;
+                case 5:
+                    menu();
+                    break;
+                default:
+                    System.out.println("[!] Opción no válida");
+                    break;
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         ArrayList<Album> albumes = new ArrayList<>() {{
             add(new Album("Los polluelos", "Álvaro") {{
@@ -49,42 +107,12 @@ public class Main {
 
         LinkedList<Cancion> playList = new LinkedList<>();
 
+        System.out.println("\n[+] Añadimos algunas canciones a la Playlist");
         albumes.get(0).addToPlayList(2,playList);
         albumes.get(1).addToPlayList(8,playList);
         albumes.get(0).addToPlayList("Aleteos Nocturnos",playList);
         albumes.get(1).addToPlayList("Ritmo del Sur",playList);
 
-        imprimirPlayList(playList);
-
-        Scanner sc = new Scanner(System.in);
-        int opcion = -1;
-        menu();
-
-        while(opcion != 0) {
-            System.out.println("\n[*] Introduce una opción: ");
-            switch (opcion) {
-                case 0:
-                    System.out.println("[!] Saliendo...");
-                    break;
-                case 1:
-                    System.out.println("[!] Saliendo...");
-                    break;
-                case 2:
-                    System.out.println("[!] Saliendo...");
-                    break;
-                case 3:
-                    System.out.println("[*] Esta sonando ")//Añadir cación actual;
-                    break;
-                case 4:
-                    System.out.println("[!] Saliendo...");
-                    break;
-                case 5:
-                    System.out.println("[!] Saliendo...");
-                    break;
-                default:
-                    System.out.println("[!] Opción no válida");
-                    break;
-            }
-        }
+        play(playList);
     }
 }

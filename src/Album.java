@@ -51,7 +51,7 @@ public class Album {
         try {
             Cancion cancion = canciones.get(numeroPista - 1);
             playList.add(cancion);
-            System.out.println("Se ha añadido la canción " + cancion.getTitulo() + " a la PlayList");
+            System.out.println("\tSe ha añadido la canción " + cancion.getTitulo() + " a la PlayList");
             return true;
         } catch (Exception e){
             System.out.println("[!] La canción no exite en el álbum");
@@ -64,7 +64,7 @@ public class Album {
         if(cancionExistente != null){
             try{
                 playList.add(cancionExistente);
-                System.out.println("Se ha añadido la canción " + cancionExistente.getTitulo() + " a la PlayList");
+                System.out.println("\tSe ha añadido la canción " + cancionExistente.getTitulo() + " a la PlayList");
                 return true;
             } catch (Exception e){
                 System.out.println("[!] Error la canción no se puede añadir a la PlayList");
